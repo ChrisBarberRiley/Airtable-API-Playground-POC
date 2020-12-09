@@ -1,6 +1,12 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
 
 let cachedData;
 let cachedTime;
@@ -25,6 +31,7 @@ router.get('/fetch-data', async (req, res) => {
     // Make request for data from Air Table
     const { data } = await axios.get(`${BASE_URL}${PARAMS}`, config);
 
+    // Declare cache
     cachedData = data;
     cachedTime = Date.now();
     data.cachedTime = cachedTime;

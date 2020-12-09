@@ -17,8 +17,11 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/', routes);
+
+// Setup React files
 app.use(express.static(__dirname + '/public'));
 
+// Forward all requests to our static files
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
