@@ -13,6 +13,12 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 app.use(cors());
+app.use(express.json());
+
+app.get('/fetch', (req, res) => {
+  res.json({ bearer: process.env.BEARER });
+});
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('*', (req, res) => {
