@@ -1,34 +1,14 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
-import Data from './components/data';
+import Login from './components/auth/Login';
+import Main from './components/main';
 
 function App() {
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      const res = await axios.get('http://localhost:3000/fetch-data');
-      setUserData(res.data.records);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
-    <div className='wrapper' onClick={getData}>
-      <div className='container'>
-        <h1>Our AirTable Data</h1>
-
-        <div className='content'>
-          {userData ? <Data records={userData} /> : '<h1>Loading</h1>'}
-        </div>
-      </div>
-    </div>
+    <Router>
+      <Route path='/login' component={Login} exact={true} />
+      <Route path='/' component={Main} exact={true} />
+    </Router>
   );
 }
 
