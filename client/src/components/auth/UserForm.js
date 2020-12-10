@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const UserForm = () => {
@@ -6,7 +7,14 @@ const UserForm = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState('');
-  const { signup, login } = useAuth();
+  const { signup, login, currentUser } = useAuth();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (currentUser) {
+      history.push('/');
+    }
+  }, []);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -14,6 +22,7 @@ const UserForm = () => {
       setError('');
       setLoading(true);
       await signup(email, password);
+      history.push('/');
     } catch (err) {
       setError('Failed to create an account');
     }
@@ -24,7 +33,10 @@ const UserForm = () => {
     e.preventDefault();
     try {
       await login(email, password);
-    } catch (err) {}
+      history.push('/');
+    } catch (err) {
+      setError('Failed log in');
+    }
   };
 
   return (
