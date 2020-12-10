@@ -3,6 +3,8 @@ import './App.css';
 import Login from './components/auth/Login';
 import Main from './components/main';
 
+// const [user] = useAuthState(auth);
+
 function App() {
   return (
     <Router>
