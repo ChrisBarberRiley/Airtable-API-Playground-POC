@@ -1,15 +1,21 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
-import Login from './components/auth/Login';
+import PrivateRoute from './components/auth/PrivateRoute';
+import UserForm from './components/auth/UserForm';
 import Main from './components/main';
-
+import { AuthProvider } from './context/AuthContext';
 // const [user] = useAuthState(auth);
 
 function App() {
   return (
     <Router>
-      <Route path='/login' component={Login} exact={true} />
-      <Route path='/' component={Main} exact={true} />
+      <AuthProvider>
+        <Switch>
+          <PrivateRoute path='/' component={Main} exact={true} />
+          <Route path='/signup' component={UserForm} exact={true} />
+          <Route path='/login' component={UserForm} exact={true} />
+        </Switch>
+      </AuthProvider>
     </Router>
   );
 }
